@@ -26,7 +26,7 @@ Sentry.init({
 });
 
 
-export default Sentry.wrap(function RootLayout() {
+export default function RootLayout() {
 
   const [fontsLoaded, error] = useFonts({
     "QuickSand-Bold": require('../assets/fonts/Quicksand-Bold.ttf'),
@@ -53,6 +53,10 @@ useEffect(() => {
 }, [fontsLoaded, error]);
 
 
-    return <Stack screenOptions={{ headerShown: false }} />;
+    return (
+      <Sentry.ErrorBoundary>
+        <Stack screenOptions={{ headerShown: false }} />
+      </Sentry.ErrorBoundary>
+    );
 
-});
+}
