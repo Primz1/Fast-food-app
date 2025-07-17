@@ -33,7 +33,7 @@ const SignUp = () => {
 
 
 
-   
+
   return (
     <View className="gap-10 bg-white rounded-lg p-5 mt-5">
 
@@ -68,7 +68,7 @@ const SignUp = () => {
         <Text className="base-regular text-gray-100">
           Already have an account?
         </Text>
-        <Link href="/sign-in" className="base-bold text-primary">
+        <Link href="/sign" className="base-bold text-primary">
            Sign In
         </Link>
       </View>

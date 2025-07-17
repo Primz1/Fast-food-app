@@ -1,9 +1,13 @@
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from "expo-router";
+import { Stack } from "expo-router";
+import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
 
 import './globals.css';
 import * as Sentry from '@sentry/react-native';
+
+// Prevent the splash screen from auto-hiding
+SplashScreen.preventAutoHideAsync();
 
 Sentry.init({
   dsn: 'https://cec263a402aa0635efec107bc074eaea@o4509554323685376.ingest.us.sentry.io/4509679626813440',
@@ -34,8 +38,19 @@ export default Sentry.wrap(function RootLayout() {
 
 useEffect(() => {
   if (error) throw error;
-  if (fontsLoaded) SplashScreen.hideAsync();
-}, [fontsLoaded, error]); 
+  if (fontsLoaded) {
+    // Hide the splash screen after the fonts have loaded and the
+    // UI is ready to be displayed
+    (async () => {
+      try {
+        await SplashScreen.hideAsync();
+      } catch (e) {
+        // Handle any errors that might occur during the splash screen hiding process
+        console.warn('Error hiding splash screen:', e);
+      }
+    })();
+  }
+}, [fontsLoaded, error]);
 
 
     return <Stack screenOptions={{ headerShown: false }} />;
