@@ -3,8 +3,9 @@ import { Stack } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
 
-import './globals.css';
+import useAuthStore from '@/store/auth.store';
 import * as Sentry from '@sentry/react-native';
+import './globals.css';
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -27,6 +28,7 @@ Sentry.init({
 
 
 export default Sentry.wrap(function RootLayout() {
+  const{isLoading,  fetchAuthenticatedUser} = useAuthStore();
 
   const [fontsLoaded, error] = useFonts({
     "QuickSand-Bold": require('../assets/fonts/Quicksand-Bold.ttf'),
@@ -38,21 +40,15 @@ export default Sentry.wrap(function RootLayout() {
 
 useEffect(() => {
   if (error) throw error;
-  if (fontsLoaded) {
-    // Hide the splash screen after the fonts have loaded and the
-    // UI is ready to be displayed
-    (async () => {
-      try {
-        await SplashScreen.hideAsync();
-      } catch (e) {
-        // Handle any errors that might occur during the splash screen hiding process
-        console.warn('Error hiding splash screen:', e);
-      }
-    })();
-  }
+  if (fontsLoaded) SplashScreen.hideAsync();
 }, [fontsLoaded, error]);
 
+useEffect(() => {
+  fetchAuthenticatedUser()
+}, []);
 
-    return <Stack screenOptions={{ headerShown: false }} />;
+if(!fontsLoaded || isLoading) return null;
 
-});
+
+return <Stack screenOptions={{ headerShown: false }} />;
+})

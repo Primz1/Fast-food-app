@@ -1,9 +1,9 @@
-import {View, Text, Button, Alert} from 'react-native'
-import {Link, router} from "expo-router";
-import CustomInput from "@/components/CustomInput";
 import CustomButton from "@/components/CustomButton";
-import {useState} from "react";
-import {createUser} from "@/lib/appwrite";
+import CustomInput from "@/components/CustomInput";
+import { createUser } from "@/lib/appwrite";
+import { Link, router } from "expo-router";
+import { useState } from "react";
+import { Alert, Text, View } from 'react-native';
 
 
 const SignUp = () => {
@@ -68,7 +68,7 @@ const SignUp = () => {
         <Text className="base-regular text-gray-100">
           Already have an account?
         </Text>
-        <Link href="/sign" className="base-bold text-primary">
+        <Link href="/sign-in" className="base-bold text-primary">
            Sign In
         </Link>
       </View>
