@@ -8,7 +8,7 @@ export const appwriteConfig ={
     platform: "com.Paul.Fastfood",
     databaseId:'687689900014693713ed',
     userCollectionId: '687689af0036c5452e9f',
-    
+    storageBucketId: '687d542a00252db44a9b'
 }
 
 export const client = new Client();
@@ -21,6 +21,7 @@ client
 
 export const account = new Account(client);
 export const databases = new Databases(client);
+export const storage = new Storage(client);
 const avatars = new Avatars(client);
 
 
