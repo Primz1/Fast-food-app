@@ -1,5 +1,5 @@
-import {Account, Avatars, Client, Databases, ID, Query, Storage} from "react-native-appwrite";
-import {CreateUserParams, GetMenuParams, SignInParams} from "@/type";
+import { CreateUserParams, GetMenuParams, SignInParams } from "@/type";
+import { Account, Avatars, Client, Databases, ID, Query, Storage } from "react-native-appwrite";
 
 
 export const appwriteConfig ={
@@ -7,7 +7,12 @@ export const appwriteConfig ={
     projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
     platform: "com.Paul.Fastfood",
     databaseId:'687689900014693713ed',
+    bucketId:'687d542a00252db44a9b',
     userCollectionId: '687689af0036c5452e9f',
+    categoriesCollectionId: '687d4ca8002e665cf11c',
+    menuCollectionId: '687d4d6d000b490589bd',
+    customizationsCollectionId: '687d4e9c000017041724',
+    menuCustomizationCollectionId: '687d52f3000f901592dc'
     
 }
 
@@ -21,6 +26,7 @@ client
 
 export const account = new Account(client);
 export const databases = new Databases(client);
+export const storage = new Storage(client);
 const avatars = new Avatars(client);
 
 
@@ -73,3 +79,38 @@ export const getCurrentUser = async () => {
         throw new Error(e as string);
     }
 }
+
+export const getMenu = async ({category, query}: GetMenuParams) => {
+    try {
+        const queries: string[] = [];
+
+        if(category) queries.push(Query.equal('category', category));
+        if(query) queries.push(Query.search('name', query));
+
+        const menus = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.menuCollectionId,
+            queries
+        )
+
+        return menus.documents;
+    } catch (e) {
+        throw new Error("e as string");
+        
+        
+    }
+}
+
+export const getCategories = async () => {
+    try {
+        const categories = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.categoriesCollectionId,
+        )
+
+        return categories.documents;
+    } catch (e) {
+        throw new Error(e as string);
+    }
+}
+
