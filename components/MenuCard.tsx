@@ -1,52 +1,29 @@
-import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { MenuItem } from "@/type";
+import { Image, Platform, Text, TouchableOpacity } from 'react-native';
 
-const MenuCard = ({ item }: { item: any }) => {
-  if (!item?.image_url) {
-    return <Text style={{ color: "red" }}>Image missing</Text>;
-  }
+const MenuCard = ({ item: { $id, image_url, name, price } }: { item: MenuItem }) => {
+  const imageUrl = image_url;
 
+  
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity
+      className="menu-card"
+      style={Platform.OS === 'android' ? { elevation: 10, shadowColor: '#878787' } : {}}
+    >
       <Image
-        source={{ uri: item.image_url }}
-        style={styles.image}
-        resizeMode="cover"
+        source={{ uri: imageUrl }}
+        className="size-32 absolute -top-10"
+        resizeMode="contain"
       />
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.price}>From ${item.price}</Text>
+      <Text className="text-center base-bold text-dark-100 mb-2" numberOfLines={1}>
+        {name}
+      </Text>
+      <Text className="body-regular text-gray-200 mb-4">From ${price}</Text>
+      <TouchableOpacity onPress={() => {}}>
+        <Text className="paragraph-bold text-primary">Add to Cart +</Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    width: 150,
-    margin: 10,
-    borderRadius: 10,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
-    padding: 10,
-  },
-  image: {
-    width: "100%",
-    height: 100,
-    borderRadius: 10,
-    backgroundColor: "#eee",
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 8,
-  },
-  price: {
-    fontSize: 14,
-    color: "gray",
-  },
-});
 
 export default MenuCard;
