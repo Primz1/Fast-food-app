@@ -1,14 +1,10 @@
 import { useFonts } from 'expo-font';
 import { Stack } from "expo-router";
-import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
 
 import useAuthStore from '@/store/auth.store';
 import * as Sentry from '@sentry/react-native';
 import './globals.css';
-
-// Prevent the splash screen from auto-hiding
-SplashScreen.preventAutoHideAsync();
 
 Sentry.init({
   dsn: 'https://cec263a402aa0635efec107bc074eaea@o4509554323685376.ingest.us.sentry.io/4509679626813440',
@@ -40,8 +36,7 @@ export default Sentry.wrap(function RootLayout() {
 
 useEffect(() => {
   if (error) throw error;
-  if (fontsLoaded) SplashScreen.hideAsync();
-}, [fontsLoaded, error]);
+}, [error]);
 
 useEffect(() => {
   fetchAuthenticatedUser()
