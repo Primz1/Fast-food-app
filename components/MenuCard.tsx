@@ -6,7 +6,6 @@ const MenuCard = ({ item: { $id, image_url, name, price } }: { item: MenuItem })
   const imageUrl = image_url;
   const { addItem } = useCartStore();
 
-  
   return (
     <TouchableOpacity
       className="menu-card"

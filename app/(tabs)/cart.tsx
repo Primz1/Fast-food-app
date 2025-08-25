@@ -4,7 +4,12 @@ import CustomHeader from "@/components/CustomHeader";
 import { useCartStore } from "@/store/cart.store";
 import { PaymentInfoStripeProps } from "@/type";
 import cn from "clsx";
-import { FlatList, Text, View } from 'react-native';
+
+import emptyState from "@/assets/images/empty-state.png";
+import { router } from "expo-router";
+import { FlatList, Image, Text, View } from 'react-native';
+
+
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
@@ -33,7 +38,23 @@ const Cart = () => {
                 keyExtractor={(item) => item.id}
                 contentContainerClassName="pb-28 px-5 pt-5"
                 ListHeaderComponent={() => <CustomHeader title="Your Cart" />}
-                ListEmptyComponent={() => <Text>Cart Empty</Text>}
+                                ListEmptyComponent={() => (
+                                    <View className="flex-1 items-center justify-center py-24">
+                                        <Image
+                                            source={emptyState}
+                                            style={{ width: 192, height: 192, marginBottom: 24 }}
+                                            resizeMode="contain"
+                                        />
+                                        <Text className="h3-bold text-dark-100 mb-2">Your cart is empty</Text>
+                                        <Text className="text-gray-400 text-base mb-4 text-center px-6">
+                                            Looks like you haven't added anything yet. Start exploring our{' '}
+                                            <Text className="text-primary underline" onPress={() => router.push('/(tabs)/search')}>
+                                                menu
+                                            </Text>
+                                            {' '}and add your favorite meals!
+                                        </Text>
+                                    </View>
+                                )}
                 ListFooterComponent={() => totalItems > 0 && (
                     <View className="gap-5">
                         <View className="mt-6 border border-gray-200 p-5 rounded-2xl">

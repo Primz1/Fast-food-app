@@ -24,6 +24,10 @@ const Search = () => {
 
   return (
     <SafeAreaView className="bg-white h-full">
+      {/* <Button
+        title="Seed"
+        onPress={() => seed().catch((error) => console.log('Failed to seed the database', error))}
+      /> */}
       <FlatList 
         data={data}
         renderItem={({ item, index}) => {
